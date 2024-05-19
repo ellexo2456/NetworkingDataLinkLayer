@@ -1,0 +1,63 @@
+basePath: /
+definitions:
+  segment.SegmentRequest:
+    properties:
+      id:
+        example: "2024-03-09T12:04:08Z"
+        type: string
+      payload:
+        items:
+          type: integer
+        type: array
+      segment_number:
+        example: 1
+        type: integer
+      sender_name:
+        example: Некто
+        type: string
+      total_segments:
+        example: 5
+        type: integer
+    type: object
+  swag.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+host: http://localhost:8081
+info:
+  contact: {}
+  description: API server for DataLinkLayer application
+  title: DataLinkLayer API
+  version: "1.0"
+paths:
+  /code:
+    post:
+      consumes:
+      - application/json
+      description: Кодирует и декодирует полученный в виде байт сегмент, вносит ошибку,
+        исправляет ее, так же с вероятностью возвращает сегмент на траспортный уровень.
+      parameters:
+      - description: Пользовательский объект в формате JSON
+        in: body
+        name: segment
+        required: true
+        schema:
+          $ref: '#/definitions/segment.SegmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ
+        "400":
+          description: Ошибка в запросе
+          schema:
+            $ref: '#/definitions/swag.ErrorResponse'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/swag.ErrorResponse'
+      summary: EncodeSegmentSimulate.
+      tags:
+      - Code
+swagger: "2.0"

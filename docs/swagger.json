@@ -1,0 +1,93 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API server for DataLinkLayer application",
+        "title": "DataLinkLayer API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "http://localhost:8081",
+    "basePath": "/",
+    "paths": {
+        "/code": {
+            "post": {
+                "description": "Кодирует и декодирует полученный в виде байт сегмент, вносит ошибку, исправляет ее, так же с вероятностью возвращает сегмент на траспортный уровень.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Code"
+                ],
+                "summary": "EncodeSegmentSimulate.",
+                "parameters": [
+                    {
+                        "description": "Пользовательский объект в формате JSON",
+                        "name": "segment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/segment.SegmentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ"
+                    },
+                    "400": {
+                        "description": "Ошибка в запросе",
+                        "schema": {
+                            "$ref": "#/definitions/swag.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/swag.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "segment.SegmentRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "2024-03-09T12:04:08Z"
+                },
+                "payload": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "segment_number": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "sender_name": {
+                    "type": "string",
+                    "example": "Некто"
+                },
+                "total_segments": {
+                    "type": "integer",
+                    "example": 5
+                }
+            }
+        },
+        "swag.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
