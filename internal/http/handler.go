@@ -73,21 +73,19 @@ func (h *Handler) EncodeSegmentSimulate(c *gin.Context) {
 
 	log.Info("Transfer method", bytes.NewBuffer(segmentJSON))
 
-	c.JSON(http.StatusOK, gin.H{"message": seg, "text": string(seg.Payload)})
+	response, err := http.Post(h.BaseURL, "application/json", bytes.NewBuffer(segmentJSON))
+	if err != nil {
+		log.WithError(err).Error("ошибка при отправке сегмента на эндпоинт")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ошибка при отправке сегмента на эндпоинт: " + err.Error()})
+		return
+	}
+	defer response.Body.Close()
 
-	//response, err := http.Post(h.BaseURL, "application/json", bytes.NewBuffer(segmentJSON))
-	//if err != nil {
-	//	log.WithError(err).Error("ошибка при отправке сегмента на эндпоинт")
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "ошибка при отправке сегмента на эндпоинт: " + err.Error()})
-	//	return
-	//}
-	//defer response.Body.Close()
-	//
-	//if response.StatusCode != http.StatusOK {
-	//	log.Error("неверный код состояния ответа")
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "неверный код состояния ответа"})
-	//	return
-	//}
-	//
-	//c.JSON(http.StatusOK, gin.H{"message": "сегмент успешно отправлен на эндпоинт"})
+	if response.StatusCode != http.StatusOK {
+		log.Error("неверный код состояния ответа")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "неверный код состояния ответа"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "сегмент успешно отправлен на эндпоинт"})
 }
