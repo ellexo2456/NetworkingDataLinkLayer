@@ -22,7 +22,7 @@ func (app *Application) Run() {
 	docs.SwaggerInfo.Title = "DataLinkLayer API"
 	docs.SwaggerInfo.Description = "API server for DataLinkLayer application"
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:8081"
+	docs.SwaggerInfo.Host = "localhost:8082"
 	docs.SwaggerInfo.BasePath = "/"
 
 	router.Use(cors.New(cors.Config{
