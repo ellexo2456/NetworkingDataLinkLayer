@@ -66,7 +66,7 @@ func (h *Handler) EncodeSegmentSimulate(c *gin.Context) {
 	seg.JoinCycleCodesToSegment(cycleCode, h.log)
 
 	segResp := struct {
-		ID            time.Time `json:"id" example:"2024-03-09T12:04:08Z"`
+		ID            time.Time `json:"timestamp" example:"2024-03-09T12:04:08Z"`
 		TotalSegments uint      `json:"total_segments" example:"5"`
 		SenderName    string    `json:"sender" example:"Некто"`
 		SegmentNumber uint      `json:"segment_number" example:"1"`
@@ -80,31 +80,29 @@ func (h *Handler) EncodeSegmentSimulate(c *gin.Context) {
 		HadError: seg.HadError,
 		Payload: string(seg.Payload),
 	}
-
-	c.JSON(http.StatusOK, segResp)
 	
-	//segmentJSON, err := json.Marshal(segResp)
-	//if err != nil {
-	//	log.WithError(err).Error("ошибка при кодировании сегмента в JSON")
-	//	c.JSON(http.StatusInternalServerError, gin.H{"error": "ошибка при кодировании сегмента в JSON: " + err.Error()})
-	//	return
-	//}
-	//
-	//log.Info("Transfer method", bytes.NewBuffer(segmentJSON))
-	//
-	//response, err := http.Post(h.BaseURL, "application/json", bytes.NewBuffer(segmentJSON))
-	//if err != nil {
-	//	log.WithError(err).Error("ошибка при отправке сегмента на эндпоинт")
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "ошибка при отправке сегмента на эндпоинт: " + err.Error()})
-	//	return
-	//}
-	//defer response.Body.Close()
-	//
-	//if response.StatusCode != http.StatusOK {
-	//	log.Error("неверный код состояния ответа")
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "неверный код состояния ответа"})
-	//	return
-	//}
-	//
-	//c.JSON(http.StatusOK, gin.H{"message": "сегмент успешно отправлен на эндпоинт"})
+	segmentJSON, err := json.Marshal(segResp)
+	if err != nil {
+		log.WithError(err).Error("ошибка при кодировании сегмента в JSON")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ошибка при кодировании сегмента в JSON: " + err.Error()})
+		return
+	}
+	
+	log.Info("Transfer method", bytes.NewBuffer(segmentJSON))
+	
+	response, err := http.Post(h.BaseURL, "application/json", bytes.NewBuffer(segmentJSON))
+	if err != nil {
+		log.WithError(err).Error("ошибка при отправке сегмента на эндпоинт")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ошибка при отправке сегмента на эндпоинт: " + err.Error()})
+		return
+	}
+	defer response.Body.Close()
+	
+	if response.StatusCode != http.StatusOK {
+		log.Error("неверный код состояния ответа")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "неверный код состояния ответа"})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{"message": "сегмент успешно отправлен на эндпоинт"})
 }
