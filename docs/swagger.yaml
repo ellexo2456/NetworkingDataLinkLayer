@@ -5,14 +5,13 @@ definitions:
       id:
         example: "2024-03-09T12:04:08Z"
         type: string
-      payload:
-        items:
-          type: integer
-        type: array
+      message:
+        example: что-то
+        type: string
       segment_number:
         example: 1
         type: integer
-      sender_name:
+      sender:
         example: Некто
         type: string
       total_segments:

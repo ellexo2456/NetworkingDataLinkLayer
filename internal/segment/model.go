@@ -14,7 +14,7 @@ type Segment struct {
 type SegmentRequest struct {
 	ID            time.Time `json:"id" example:"2024-03-09T12:04:08Z"`
 	TotalSegments uint      `json:"total_segments" example:"5"`
-	SenderName    string    `json:"sender_name" example:"Некто"`
+	SenderName    string    `json:"sender" example:"Некто"`
 	SegmentNumber uint      `json:"segment_number" example:"1"`
-	Payload       []byte    `json:"payload"`
+	Payload       string    `json:"message" example:"что-то"`
 }

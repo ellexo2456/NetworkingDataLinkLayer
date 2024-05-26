@@ -67,17 +67,15 @@ const docTemplate = `{
                     "type": "string",
                     "example": "2024-03-09T12:04:08Z"
                 },
-                "payload": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
+                "message": {
+                    "type": "string",
+                    "example": "что-то"
                 },
                 "segment_number": {
                     "type": "integer",
                     "example": 1
                 },
-                "sender_name": {
+                "sender": {
                     "type": "string",
                     "example": "Некто"
                 },
