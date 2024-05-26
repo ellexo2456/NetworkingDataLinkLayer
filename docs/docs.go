@@ -63,10 +63,6 @@ const docTemplate = `{
         "segment.SegmentRequest": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "2024-03-09T12:04:08Z"
-                },
                 "message": {
                     "type": "string",
                     "example": "что-то"
@@ -78,6 +74,10 @@ const docTemplate = `{
                 "sender": {
                     "type": "string",
                     "example": "Некто"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2024-03-09T12:04:08Z"
                 },
                 "total_segments": {
                     "type": "integer",

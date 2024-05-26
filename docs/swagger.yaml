@@ -2,9 +2,6 @@ basePath: /
 definitions:
   segment.SegmentRequest:
     properties:
-      id:
-        example: "2024-03-09T12:04:08Z"
-        type: string
       message:
         example: что-то
         type: string
@@ -13,6 +10,9 @@ definitions:
         type: integer
       sender:
         example: Некто
+        type: string
+      timestamp:
+        example: "2024-03-09T12:04:08Z"
         type: string
       total_segments:
         example: 5
