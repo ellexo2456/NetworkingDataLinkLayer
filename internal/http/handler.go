@@ -59,6 +59,7 @@ func (h *Handler) EncodeSegmentSimulate(c *gin.Context) {
 	if randomNumber < 2 {
 		log.WithField("segment", seg).Warn("потеря сегмента с вероятностью 2%")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "сегмент утерян"})
+		return
 	}
 
 	cycleCode := seg.Simulate(seg.SplitSegmentToCycleCodes(h.log), h.log)
